@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Contagem Regressiva</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    #contador {
+      font-size: 2rem;
+      letter-spacing: 3px;
+    }
+
+    #liberado {
+      display: none;
+      font-size: 2rem;
+      color: #00ff00;
+      margin-top: 2rem;
+    }
+
+    #link-secreto {
+      display: none;
+      margin-top: 1rem;
+      color: #00ff00;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Acesso será liberado em:</h1>
+  <div id="contador">--:--:--</div>
+  <div id="liberado">✅ ACESSO LIBERADO</div>
+  <a id="link-secreto" href="https://exemplo.com" target="_blank">[ ACESSAR CONTEÚDO SECRETO ]</a>
+
+  <script>
+    const dataAlvo = new Date();
+    dataAlvo.setMonth(3); // Abril
+    dataAlvo.setDate(5);
+    dataAlvo.setHours(22, 0, 0, 0);
+
+    const contador = document.getElementById("contador");
+    const liberado = document.getElementById("liberado");
+    const linkSecreto = document.getElementById("link-secreto");
+
+    const intervalo = setInterval(() => {
+      const agora = new Date();
+      const tempoRestante = dataAlvo - agora;
+
+      if (tempoRestante <= 0) {
+        clearInterval(intervalo);
+        contador.style.display = "none";
+        liberado.style.display = "block";
+        linkSecreto.style.display = "inline-block";
+        return;
+      }
+
+      const horas = String(Math.floor((tempoRestante / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+      const minutos = String(Math.floor((tempoRestante / (1000 * 60)) % 60)).padStart(2, '0');
+      const segundos = String(Math.floor((tempoRestante / 1000) % 60)).padStart(2, '0');
+
+      contador.textContent = `${horas}:${minutos}:${segundos}`;
+    }, 1000);
+  </script>
+</body>
+</html>
